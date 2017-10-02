@@ -44,12 +44,25 @@ static const char kBundleKey = 0;
     });
     if ([LanguageManager isCurrentLanguageRTL]) {
         if ([[[UIView alloc] init] respondsToSelector:@selector(setSemanticContentAttribute:)]) {
-            [[UIView appearance] setSemanticContentAttribute:
-             UISemanticContentAttributeForceRightToLeft];
+            //view
+            [[UIView appearance] setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
+            //navigation
+            [[UINavigationBar appearance] setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
+            
+            // UIText Filed   this will overide all Setting in UI  .
+            //TODO: FIX 
+            [[UITextField appearance]setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
+            [[UITextField appearance] setTextAlignment:NSTextAlignmentRight];
+            
         }
+        
+        
     }else {
         if ([[[UIView alloc] init] respondsToSelector:@selector(setSemanticContentAttribute:)]) {
+            //view
             [[UIView appearance] setSemanticContentAttribute:UISemanticContentAttributeForceLeftToRight];
+            //navigation
+            [[UINavigationBar appearance] setSemanticContentAttribute:UISemanticContentAttributeForceLeftToRight];
         }
     }
     [[NSUserDefaults standardUserDefaults] setBool:[LanguageManager isCurrentLanguageRTL] forKey:@"AppleTextDirection"];
@@ -58,6 +71,7 @@ static const char kBundleKey = 0;
     
     id value = language ? [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:language ofType:@"lproj"]] : nil;
     objc_setAssociatedObject([NSBundle mainBundle], &kBundleKey, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
 }
 
 @end
